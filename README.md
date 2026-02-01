@@ -104,4 +104,9 @@ sudo docker compose exec -it freepbx certbot --apache -d your.domain.com --email
 Login to the web server's admin URL and start configuring the system!
 
 
-**If you find this project useful or inspiring, please consider dropping a ⭐**
+**If you find this project useful or inspiring**
+
+<a href="https://www.buymeacoffee.com/emilianospada">
+  <img src="https://i.postimg.cc/W1qS7R25/bmc-button-counter.jpg" alt="Buy me a coffee" width="320">
+</a>
+
