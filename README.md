@@ -7,6 +7,8 @@ Upon starting this multi-container application, it will give you a turnkey PBX s
 * FreePBX 17.0.21
 * PHP 8.2.29
 * Asterisk 21.10.2
+* Opus 1.3.1
+* Opusfile 0.12
 * MariaDB 10.11.14
 * Fail2ban pre-configured with restrictive enforcement rules
 * Email notifications
@@ -78,7 +80,7 @@ cd source && sudo docker build -t your-image-name:your-tag .
 ```
 Then edit the value of `services.freepbx.image` in the [docker-compose.yaml](docker-compose.yaml) by setting the proper image version and tag.
 
-3. OPTION B: if you want to use the pre-built image on Docker Hub, jump to the next step directly
+3. OPTION B: if you want to use the pre-built image published by GitHub Actions, the compose file already points to the GHCR image `ghcr.io/BadAimWeeb/freepbx-docker:latest`
 
 4. Configure RTP ports on the host and build + run the Compose project:
 ```bash

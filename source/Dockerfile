@@ -26,7 +26,7 @@ RUN apt-get update && apt-get -y install \
   php8.2-common php8.2-mysql php8.2-gd php8.2-mbstring php8.2-intl \
   php8.2-xml php-pear \
   sox sqlite3 automake libtool autoconf unixodbc-dev \
-  libasound2-dev libogg-dev libvorbis-dev libicu-dev libcurl4-openssl-dev \
+  libasound2-dev libogg-dev libvorbis-dev libopus-dev libopusfile-dev libicu-dev libcurl4-openssl-dev \
   odbc-mariadb unixodbc \
   libical-dev libneon27-dev libsrtp2-dev libspandsp-dev libtool-bin \
   nodejs npm ipset iptables php-soap \
@@ -41,7 +41,7 @@ RUN set -eux \
   && cd "asterisk-${ASTERISK_VERSION}" \
   && contrib/scripts/get_mp3_source.sh \
   && contrib/scripts/install_prereq install \
-  && ./configure --libdir=/usr/lib64 --with-pjproject-bundled --with-jansson-bundled \
+  && ./configure --libdir=/usr/lib64 --with-pjproject-bundled --with-jansson-bundled --with-opus --with-opusfile \
   && make menuselect.makeopts \
   && menuselect/menuselect --disable BUILD_NATIVE --enable format_mp3 menuselect.makeopts \
   && make -j"$(nproc)" \
