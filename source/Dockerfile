@@ -43,7 +43,7 @@ RUN set -eux \
   && contrib/scripts/install_prereq install \
   && ./configure --libdir=/usr/lib64 --with-pjproject-bundled --with-jansson-bundled --with-opus --with-opusfile \
   && make menuselect.makeopts \
-  && menuselect/menuselect --disable BUILD_NATIVE --enable format_mp3 menuselect.makeopts \
+  && menuselect/menuselect --disable BUILD_NATIVE --enable format_mp3 --enable codec_opus --enable codec_silk --enable codec_siren7 --enable codec_siren14 --enable EXTRA-SOUNDS-EN-GSM --enable chan_mobile menuselect.makeopts \
   && make -j"$(nproc)" \
   && make install \
   && make samples \
