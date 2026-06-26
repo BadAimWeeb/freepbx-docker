@@ -12,7 +12,21 @@ ensure_freepbx_cli_links() {
   done
 }
 
+# If FreePBX is installed (by detecting fwconsole), trigger restart of FreePBX service to ensure all services are running
+make_sure_freepbx_is_running() {
+  if [[ -x /usr/sbin/fwconsole ]]; then
+    echo "FreePBX detected, ensuring FreePBX services are running..."
+    /usr/sbin/fwconsole restart || true
+  fi
+}
+
 ensure_freepbx_cli_links
+
+# Restoring backup of Opus and third-party documentation
+if [[ -d /image_backup/asterisk_documentation_thirdparty ]]; then
+  echo "Restoring backup of Opus and third-party documentation..."
+  cp -r /image_backup/asterisk_documentation_thirdparty /var/lib/asterisk/documentation/thirdparty
+fi
 
 # Start cron
 /usr/sbin/cron &
@@ -23,4 +37,6 @@ service postfix start
 # Start Asterisk service
 /usr/local/src/freepbx/start_asterisk start &
 
-exec apache2ctl -D FOREGROUND
+exec apache2ctl -D FOREGROUND &
+
+make_sure_freepbx_is_running

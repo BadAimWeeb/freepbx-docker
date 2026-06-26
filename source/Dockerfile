@@ -58,6 +58,9 @@ RUN set -eux \
   && sed -i 's|;rungroup|rungroup|' /etc/asterisk/asterisk.conf \
   && echo "/usr/lib64" >> /etc/ld.so.conf.d/x86_64-linux-gnu.conf \
   && ldconfig \
+  # Making exception for Opus and third-party documentation (requires documentation which is stored in /var)
+  && mkdir /image_backup \
+  && cp -r /var/lib/asterisk/documentation/thirdparty /image_backup/asterisk_documentation_thirdparty \
   # Configure Apache web server
   && sed -i 's/\(^upload_max_filesize = \).*/\120M/' /etc/php/8.2/apache2/php.ini \
   && sed -i 's/\(^memory_limit = \).*/\1256M/' /etc/php/8.2/apache2/php.ini \
