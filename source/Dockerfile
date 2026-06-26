@@ -5,8 +5,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 WORKDIR /usr/src
 
 # Pinned sources versions (override with --build-arg for reproducible builds)
-ARG ASTERISK_VERSION=21.10.2
-ARG ASTERISK_VERSION_TAG=21.10.2
+ARG ASTERISK_VERSION=21.12.3
 
 ARG FREEPBX_VERSION=17.0.21
 ARG FREEPBX_VERSION_TAG=17.0.2
@@ -17,7 +16,7 @@ RUN apt-get update && apt-get -y install \
   bison flex libnewt-dev libssl-dev libncurses5-dev \
   subversion libsqlite3-dev libjansson-dev \
   libxml2-dev uuid uuid-dev default-libmysqlclient-dev \
-  lame ffmpeg mpg123 expect \
+  lame ffmpeg mpg123 expect nano \
   # PHP 8.2 Installation
   && echo "postfix postfix/mailname string freepbx.localdomain" | debconf-set-selections \
   && echo "postfix postfix/main_mailer_type string 'Internet Site'" | debconf-set-selections \
@@ -35,13 +34,13 @@ RUN apt-get update && apt-get -y install \
 
 # Download and build Asterisk directly in this stage
 RUN set -eux \
-  && AST_URL="https://github.com/escomputers/freepbx-docker/releases/download/v${ASTERISK_VERSION_TAG}/asterisk-${ASTERISK_VERSION}.tar.gz" \
+  && AST_URL="https://downloads.asterisk.org/pub/telephony/asterisk/old-releases/asterisk-${ASTERISK_VERSION}.tar.gz" \
   && curl -fsSL "$AST_URL" -o asterisk.tar.gz \
   && tar -xzf asterisk.tar.gz \
   && cd "asterisk-${ASTERISK_VERSION}" \
   && contrib/scripts/get_mp3_source.sh \
   && contrib/scripts/install_prereq install \
-  && ./configure --libdir=/usr/lib64 --with-pjproject-bundled --with-jansson-bundled --with-opus --with-opusfile \
+  && ./configure --libdir=/usr/lib64 --localstatedir=/var --with-pjproject-bundled --with-jansson-bundled --with-opus --with-opusfile \
   && make menuselect.makeopts \
   && menuselect/menuselect --disable BUILD_NATIVE --enable format_mp3 --enable codec_opus --enable codec_silk --enable codec_siren7 --enable codec_siren14 --enable EXTRA-SOUNDS-EN-GSM --enable chan_mobile menuselect.makeopts \
   && make -j"$(nproc)" \
