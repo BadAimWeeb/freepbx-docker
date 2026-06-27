@@ -16,7 +16,7 @@ ensure_freepbx_cli_links() {
 make_sure_freepbx_is_running() {
   if [[ -x /usr/sbin/fwconsole ]]; then
     echo "FreePBX detected, ensuring FreePBX services are running..."
-    /usr/sbin/fwconsole restart || true
+    /usr/sbin/fwconsole start || true
   fi
 }
 
@@ -35,8 +35,6 @@ fi
 service postfix start
 
 # Start Asterisk service
-/usr/local/src/freepbx/start_asterisk start &
+(/usr/local/src/freepbx/start_asterisk start && make_sure_freepbx_is_running) &
 
 exec apache2ctl -D FOREGROUND &
-
-make_sure_freepbx_is_running
