@@ -28,7 +28,7 @@ ensure_freepbx_cli_links
 # Restoring backup of Opus and third-party documentation
 if [[ -d /image_backup/asterisk_documentation_thirdparty ]]; then
   echo "Restoring backup of Opus and third-party documentation..."
-  cp -r /image_backup/asterisk_documentation_thirdparty/*.* /var/lib/asterisk/documentation/thirdparty/
+  cp -r /image_backup/asterisk_documentation_thirdparty/* /var/lib/asterisk/documentation/thirdparty/
 fi
 
 # Start cron
